@@ -63,8 +63,8 @@ Author: zenerDiode
     --border-radius-large:  100px;
     --border-radius-small:  5px;
     
-    --canvas-width:         500px;
-    --canvas-height:        450px;
+    --canvas-width:         450px;
+    --canvas-height:        500px;
     
     --tagline-fontsize:     16;
 
@@ -513,7 +513,7 @@ margin-bottom: 1rem;
 .apparel {
   margin: 0 auto .5rem;
   width: 22rem;
-  height: 22rem;
+  height: 26rem;
 }
 }
 
@@ -521,14 +521,14 @@ margin-bottom: 1rem;
 @media only screen and (max-width: 480px) {
 
 :root {
-  --canvas-width:         250px;
-  --canvas-height:        220px;
+  --canvas-width:         220px;
+  --canvas-height:        250px;
   --tagline-fontsize:     10;
 }
 
 .apparel {
   width: 14rem;
-  height: 14rem;
+  height: 16rem;
 }
 
 #map-area {
@@ -537,9 +537,13 @@ margin-bottom: 1rem;
 }
 
 .map-container {
-  width: 250px;
-  height: 300px;
+  /*width: 250px;*/
+  /*height: 300px;*/
   margin: auto auto;
+  border: 1px solid #dee2e6;
+  padding: 1rem;
+  border-top-left-radius: 0.5rem;
+border-top-right-radius: 0.5rem;
 }
 
 .tray__swatch {
@@ -594,8 +598,14 @@ margin-bottom: 1rem;
 }
 
 .map-container {
-  width: var( --canvas-width);
-  height: var( --canvas-height);
+    
+    border: 1px solid #dee2e6;
+    padding: 1rem;
+    border-top-left-radius: 0.5rem;
+    border-top-right-radius: 0.5rem;
+    
+  /*width: var( --canvas-width);*/
+  /*height: var( --canvas-height);*/
 }
 
 .tray__swatch {
@@ -656,10 +666,10 @@ margin: 2rem 0;
 }
 
 .map-container {
-display: flex;
-justify-content: center;
-align-items: center;
-position: relative;
+/*display: flex;*/
+/*justify-content: center;*/
+/*align-items: center;*/
+/*position: relative;*/
 margin: 0 auto;
 }
 
@@ -938,35 +948,6 @@ fill: #0C7E7E;
 
 
 
-/*
-    WooCommerce
-*/
-/*
-.col-1, .col-2 {
-    max-width: 100%;
-}
-
-.woocommerce form .form-row textarea {
-    width: 10rem !important;
-    height: 10rem !important;
-}
-
-.woocommerce form .form-row input.input-text, .woocommerce form .form-row textarea, 
-.woocommerce form .form-row select, .woocommerce-page form .form-row select,
-.woocommerce .quantity .qty {
-    outline: none;
-    border-radius: .3rem;
-    background-color: #e4f8ff;
-    border-style: solid;
-    border-color: lightblue;
-    width: 5rem;
-   color: #898989;
-}
-
-
-
-//---------
-*/
 
 .woocommerce {
     width: 90%;
@@ -975,6 +956,16 @@ fill: #0C7E7E;
 
 .woocommerce .quantity .qty {
     outline: none;
+}
+
+.woocommerce .col2-set .woo-col-1, .woocommerce-page .col2-set .woo-col-1 {
+    float: left;
+    width: 48%;
+}
+
+.woocommerce .col2-set .woo-col-2, .woocommerce-page .col2-set .woo-col-2 {
+    float: right;
+    width: 48%;
 }
 
 h3#order_review_heading, div#order_review {
@@ -1030,7 +1021,7 @@ table.shop_table.shop_table_responsive.cart.woocommerce-cart-form__contents thea
 }
 
 .woocommerce form .form-row input.input-text, .woocommerce form .form-row textarea {
-  padding: .6180469716em;
+  padding: .6rem;
     background-color: #f2f2f2;
     color: #43454b;
     border: 0;
@@ -1053,6 +1044,12 @@ table.shop_table.shop_table_responsive.cart.woocommerce-cart-form__contents thea
   
 }
 
+.form-row {
+    display: block;
+    flex-wrap: unset;
+    margin-right: 0; 
+    margin-left: 0; 
+}
 
 input[type=text], input[type=number], input[type=email], input[type=tel], 
 input[type=url], input[type=password], input[type=search], textarea, .input-text {
@@ -1080,80 +1077,32 @@ input[type=url], input[type=password], input[type=search], textarea, .input-text
     box-shadow: 5px 5px 25px 0 rgba(0,0,0,.5);
 }
 
-/*
-    Bootstrap overrides
-*/
-.modal-header {
-    border-bottom: none;
+#dress-color-toggler-tab {
+    float: right;
 }
-button.close {
+
+.dress-color-toggler {
+    flex: 1;
+}
+
+.nav-tabs .nav-link {
+    background: 0 0;
+}
+
+div.tab-content {
+    margin-top: 1rem;
+}
+
+.nav-tabs .nav-link {
     outline: none;
 }
 
-button.close:hover {
-    color: white;
-    background-color: #db0000;
-    border-bottom-left-radius: .5rem;
+td.actions > .button:first-child {
+    background-color: #8b4133;
+    color: var( --white-color);
 }
 
-/*
-    Bootstrap overrides
-*/
-
-body {
-    margin: 0;
-}
-
-.navbar {
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-
-.container {
-    width: 100%;
-    padding-right: 15px;
-    padding-left: 15px;
-    margin-right: auto;
-    margin-left: auto;
-}
-
-.row {
-    display: flex;
-    flex-wrap: wrap;
-    margin-right: -15px;
-    margin-left: -15px;
-}
-
-.col-10, .col-lg-5, .col-md-8 {
-    padding-left: 15px;
-}
-
-.text-white {
-    color: #fff;
-}
-
-.col-12, .col-lg-3, .col-md-6 {
-    padding-left: 15px;
-}
-
-.mb-4, .my-4 {
-    margin-bottom: 1.5rem!important;
-}
-
-.mt-4, .my-4 {
-    margin-top: 1.5rem!important;
-}
-
-.mb-1, .my-1 {
-    margin-bottom: .25rem!important;
-}
-
-.mr-2, .mx-2 {
-    margin-right: .5rem!important;
-}
-
-.col-12 {
-    flex: 0 0 100%;
+td.actions > .button:first-child:hover {
+    background-color: #76382d;
+    color: var( --white-color);
 }

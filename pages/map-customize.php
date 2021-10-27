@@ -4,22 +4,36 @@
 <section class="map-section">
     <div class="container">
         <div class="row">
-
             <div class="col-lg-9 mx-auto col-md-10 col-12 mt-lg-5 text-center" data-aos="fade-up">
-
                 <h4>Map Customization</h4>
-
                 <h1 class="mb-5">Here is where you <strong>customize</strong> your map</h1>
             </div>
-
         </div>
     </div>
     <div class="map-position-wrapper">
-        <div id="js-tray" class="tray">
+        <!--<div id="js-tray" class="tray">
             <div id="js-tray-slide" class="tray__slide"></div>
-        </div>
+        </div>-->
         <div class="map-container">
-            <canvas id="map-area"></canvas>
+            <ul class="nav nav-tabs" id="dress-nav" role="tablist">
+              <li class="nav-item" role="presentation">
+                <button class="nav-btn nav-link active" id="front-tab" data-id="0" data-toggle="tab" data-target="#front" type="button" role="tab" aria-controls="front" aria-selected="true">Front</button>
+              </li>
+              <li class="nav-item" role="presentation">
+                <button class="nav-btn nav-link" id="back-tab" data-id="1" data-toggle="tab" data-target="#back" type="button" role="tab" aria-controls="back" aria-selected="false">Back</button>
+              </li>
+              <li class="nav-item dress-color-toggler" role="presentation">
+                <button class="nav-link active" id="dress-color-toggler-tab" type="button" role="tab" aria-controls="dress-color-toggler" aria-selected="false">White</button>
+              </li>
+            </ul>
+            <div class="tab-content" id="map-customize">
+              <div class="tab-pane fade show active" id="front" role="tabpanel" aria-labelledby="front-tab">
+                  <canvas id="dress-front"></canvas>
+              </div>
+              <div class="tab-pane fade" id="back" role="tabpanel" aria-labelledby="back-tab">
+                <canvas id="dress-back"></canvas>
+              </div>
+            </div>
         </div>
     </div>
     
@@ -39,7 +53,7 @@
     </svg>
     
     <div class="print-button-wrapper">
-        <button id="add-to-cart" type="button" class="custom-btn" data-toggle="modal" data-target="#checkoutDialog">Add to Cart</button>
+        <button id="add-to-cart" type="button" class="custom-btn" data-toggle="modal">Add to Cart</button>
     </div>
     
     <div class="modal fade" id="checkoutDialog" tabindex="-1" role="dialog" aria-hidden="true">

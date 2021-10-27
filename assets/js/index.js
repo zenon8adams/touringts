@@ -7,6 +7,7 @@
         taglines = document.querySelectorAll( '.taglines > div'),
         headers = document.querySelectorAll( '.map-section > h1'),
         customizers = document.querySelectorAll( '.map-region'),
+        dress = null,
         holder = [], items = {},
         timeOuthandler;
         buttonToolTip = tippy( continueButton, {
@@ -52,9 +53,11 @@
             window.displayInfo('Next, choose the <strong>map</strong> you wish to add to your dress.');
             apparel._type = 'APPAREL';
             items["image"] = apparel.getAttribute('src');
+            items[ "image-back"] = apparel.getAttribute( 'data-back-src');
             items[ "productID"] = apparel.getAttribute( 'data-id');
+            dress = apparel;
             tick( apparel);
-            sessionStorage.setItem('image-src', items["image"]);
+            // sessionStorage.setItem('image-src', items["image"]);
         });
     });
     
@@ -79,7 +82,7 @@
                 window.displayInfo( '<strong>Finally!</strong> Press the <strong>Continue</strong> button.');
             items[ "tagline"] = tagline.innerText;
             tick( tagline);
-            sessionStorage.setItem('tagline', items["tagline"]);
+            // sessionStorage.setItem('tagline', items["tagline"]);
         });
     });
     
@@ -108,7 +111,7 @@
     function svgToPng( $el)
     {
         let mapData = new XMLSerializer().serializeToString( $el.get( 0));
-        sessionStorage.setItem( "map-src", "data:image/svg+xml;base64," + btoa( unescape(encodeURIComponent(mapData))));
+        // sessionStorage.setItem( "map-src", "data:image/svg+xml;base64," + btoa( unescape(encodeURIComponent(mapData))));
     
         return `data:image/svg+xml;base64,${ btoa( unescape(encodeURIComponent(mapData)))}`;
     }
@@ -143,9 +146,9 @@
     });
     
     continueButton.addEventListener( 'click', () => {
+        items[ "qty"] = $( dress).parent().parent().find( 'input').get( 0).value;
         sessionStorage.setItem( 'touringts-packet', JSON.stringify( items));
         window.location.href = continueButton.getAttribute( "data-href");
     });
     
 })();
-

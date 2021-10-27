@@ -6,10 +6,11 @@ jQuery( document).ready( function( $)
     else
         $( '.loader').show();
 
-    let canvas = new fabric.Canvas('map-area'),
+    let canvas_front = new fabric.Canvas( 'dress-front'),
+        canvas_back  = new fabric.Canvas( 'dress-back'), 
         imgSrc = packet[ 'image'],
         html = document.documentElement,
-        context = canvas.getElement().getContext( '2d'),
+        context = canvas_front.getElement().getContext( '2d'),
         fontSize = parseInt( getComputedStyle( html).getPropertyValue( '--tagline-fontsize'));
     
     function getCanvasDim() {
@@ -24,9 +25,14 @@ jQuery( document).ready( function( $)
     }
 
     let canvDim = getCanvasDim();
-    canvas.setWidth(canvDim.width);
-    canvas.setHeight(canvDim.height);
-
+    
+    canvas_back.setWidth( canvDim.width);
+    canvas_back.setHeight( canvDim.height);
+    
+    canvas_front.setWidth( canvDim.width);
+    canvas_front.setHeight( canvDim.height);
+    
+/*
     tippy('#js-tray-slide', {
         content: 'Select Color to paint your map. Drag vertically to reveal other colors',
         maxWidth: canvDim.width * .5,
@@ -53,11 +59,13 @@ jQuery( document).ready( function( $)
         },
         theme: 'map'
     });
+*/
 
     window.addEventListener("keydown", (event) => {
         if (event.key == "Escape") {
             close();
-            canvas.discardActiveObject().renderAll();
+            canvas_front.discardActiveObject().renderAll();
+            canvas_back.discardActiveObject().renderAll();
         }
     });
 
@@ -68,38 +76,81 @@ jQuery( document).ready( function( $)
         // mt: false,
         mtr: false
     });
-
-    fabric.Image.fromURL(imgSrc, (image) => {
-        canvas.add(image.set({
-            width: canvas.width,
-            height: canvas.height - 16,
-            top: 8
-        }));
-        canvas.item(0).selectable = false;
-        let map = new Image();
+    
+    
+    
+    let map = new Image();
         map.src = packet[ 'map-src'];
-        map.addEventListener( 'load', () => {
-            image = new fabric.Image( map, {
-                width: canvas.width * .55,
-                height: canvas.height * .40,
-                top: canvas.height * .30,
-                left: canvas.width * .26
-            });
-            canvas.add( image);
-            let text = packet[ 'tagline'],
-                textLength = context.measureText( text),
-                tagline = new fabric.Text( text, {
-                    fontSize: fontSize,
-                    fill: 'white',
-                    objectCaching: false,
-                    top: canvas.height * .65,
-                    left: .5 * ( canvas.width - textLength.width),
-                });
-            canvas.add( tagline);
+    
+    map.onload = function() {
+            
+        let mapEl = new fabric.Image( map, {
+            width  : map.width * .65,
+            height : map.height * .60,
+            top    : ( canvas_front.height - map.height * .65) * .4,
+            left   : ( canvas_front.width - map.width * .65) * .5,
         });
+        canvas_front.add( mapEl);
+        canvas_back.add( fabric.util.object.clone( mapEl));
+    }
+    
+    let text = packet[ 'tagline'],
+        textLength = context.measureText( text),
+        tagline = new fabric.Text( text, {
+            fontSize : fontSize,
+            fill     : 'white',
+            top      : ( canvas_front.height - fontSize) * .6,
+            left     : ( canvas_front.width  - textLength.width * 1.5 ) * .5
+        });
+        
+    canvas_front.add( tagline);
+    canvas_back.add( fabric.util.object.clone( tagline));
+    
+    
+    fabric.Image.fromURL( packet[ 'image-back'], ( dressBack) => {
+        
+           let imgEl = dressBack.getElement();
+        
+            canvas_back.add( dressBack.set({
+                width: canvas_back.width,
+                height: canvas_back.height
+            }));
+            
+        dressBack.selectable = false;
+        canvas_back.sendToBack( dressBack);
     });
+    
+    fabric.Image.fromURL( packet[ 'image'], ( dressFront) => {
 
-    const colors = [
+
+        canvas_front.add( dressFront.set({
+            width: canvas_front.width,
+            height: canvas_front.height,
+        }));
+        
+        dressFront.selectable = false;
+        canvas_front.sendToBack( dressFront);
+    });
+    
+    $( '.nav-btn').click( function() {
+       
+       let hash = $( this).text();
+       
+       if( hash === "Front")
+       {
+           $(canvas_front.getElement()).show();
+           $(canvas_back.getElement()).hide();
+       }
+       else
+       {
+           $(canvas_front.getElement()).hide();
+           $(canvas_back.getElement()).show();
+       }
+    });
+    
+    /*
+    {
+        const colors = [
         {
             color: '131417'
         },
@@ -268,7 +319,7 @@ jQuery( document).ready( function( $)
         }
     }
 
-    buildColors(colors);
+    // buildColors(colors);
 
     function selectColor( event)
     {
@@ -350,8 +401,11 @@ jQuery( document).ready( function( $)
         }
     }
 
-    slide(slider, sliderItems);
-
+    // slide(slider, sliderItems);
+    
+    }
+    */
+    
     let cartItemCount = $( '.cart-item-count').attr( 'data-cart-qty');
     assignCartCount();
     
@@ -366,26 +420,34 @@ jQuery( document).ready( function( $)
     
     function updateCartContent()
     {
-        let design = canvas.toDataURL( 'image/png');
+            
+        let reqData = {
+          'action': 'ajax_checkout',
+          'productID': packet[ 'productID'],
+          'qty': packet[ 'qty'],
+          'Front': canvas_front.toDataURL( 'image/png'),
+          'Back': canvas_back.toDataURL( 'image/png')
+        };
         
         $.ajax({
           method: "POST",
           url: ajax_object.ajax_url,
-          data: { 'design': design, 'action': 'ajax_executor', 'productID': packet[ 'productID'] }
+          data: reqData
         })
         .done(function( _)
         {
             $( '.loader').hide();
             cartItemCount = ( parseInt( cartItemCount) + 1).toString();
             assignCartCount();
+            $( '#checkoutDialog').modal( 'show');
         });
     }
     
     $( '#add-to-cart').click( () => {
-        canvas.discardActiveObject().renderAll();
-        updateCartContent();
         $( '.loader').show();
-        $( '#checkout-image').addClass( 'checkout-image');
+        canvas_front.discardActiveObject().renderAll();
+        canvas_back.discardActiveObject().renderAll();
+        updateCartContent();
     });
     
     $( '#checkout-btn').click( () => {
@@ -398,6 +460,12 @@ jQuery( document).ready( function( $)
     $( '.cart-item-count').click( () => {
         $( '.loader').show();
         window.location.href = `${ window.origin}/cart`;
+    });
+    
+    $( '#dress-color-toggler-tab').click( function() {
+       const text = [ 'White', 'Black'];
+       const next = text.indexOf( $( this).html());
+       $( this).html( text[ (next + 1) % 2]);
     });
     
 });

@@ -15,10 +15,11 @@
                 while ( $loop->have_posts() ) : $loop->the_post();
                     global $product;
                     $image = wp_get_attachment_image_src( get_post_thumbnail_id( $loop->post->ID ), 'single-post-thumbnail' );
+                    $name = strtolower( $product->get_name());
             ?>
             <div class="sales-item">
                 <a href="#map-section">
-                    <img class="apparel" src="<?php echo $image[ 0]; ?>" alt="project image" data-id="<?php echo $product->get_id(); ?>">
+                    <img class="apparel" src="<?php echo $image[ 0]; ?>" data-back-src="<?php image_url_( $name . ' back.png'); ?>" alt="project image" data-id="<?php echo $product->get_id(); ?>">
                 </a>
                 <div class="cart-item">
                     <div class="price">Price: <?php echo $symbol; echo $product->get_price(); ?></div>
