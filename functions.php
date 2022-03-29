@@ -1,8 +1,14 @@
 <?php
     
     $loaded_js = false;
-    $current_product = null;
     
+    
+    add_action( 'after_setup_theme', 'setup_woocommerce_support' );
+
+    function setup_woocommerce_support()
+    {
+      add_theme_support('woocommerce');
+    }
     
     // Same handler function...
     add_action( 'wp_ajax_ajax_checkout', 'ajax_checkout' );
@@ -11,16 +17,89 @@
     add_action( 'wp_ajax_ajax_states', 'ajax_states' );
     add_action( 'wp_ajax_nopriv_ajax_states', 'ajax_states' );
     
+    /*function add_to_cart() {
+		ob_start();
+
+
+		$product_id        = apply_filters( 'woocommerce_add_to_cart_product_id', absint( $_POST['productID'] ) );
+		$product           = wc_get_product( $product_id );
+		$quantity          = empty( $_POST['quantity'] ) ? 1 : wc_stock_amount( wp_unslash( $_POST['quantity'] ) );
+		$passed_validation = apply_filters( 'woocommerce_add_to_cart_validation', true, $product_id, $quantity );
+		$product_status    = get_post_status( $product_id );
+		$variation_id      = 0;
+		$variation         = array();
+
+		if ( $product && 'variable' === $product->get_type() ) {
+			$variation_id = $product_id;
+			$product_id   = $product->get_parent_id();
+			$variation    = $product->get_variation_attributes();
+			$pa_size      = $_POST[ 'size'];
+// 			$pa_color     = $_POST[ ''];
+            
+			
+			echo "Variation: ";
+			var_dump( $variation);
+		}
+
+		if ( $passed_validation && false !== WC()->cart->add_to_cart( $product_id, $quantity, $variation_id, $variation ) && 'publish' === $product_status ) {
+
+			do_action( 'woocommerce_ajax_added_to_cart', $product_id );
+
+			if ( 'yes' === get_option( 'woocommerce_cart_redirect_after_add' ) ) {
+				wc_add_to_cart_message( array( $product_id => $quantity ), true );
+			}
+
+			self::get_refreshed_fragments();
+
+		} else {
+
+			// If there was an error adding to the cart, redirect to the product page to show any errors.
+			$data = array(
+				'error'       => true,
+				'product_url' => apply_filters( 'woocommerce_cart_redirect_after_error', get_permalink( $product_id ), $product_id ),
+			);
+
+			wp_send_json( $data );
+		}
+	}
+    */
+    
+    function filter_variations( $variation)
+    {
+        $attrs = $variation->get_attributes();
+        return $attrs == $_POST[ 'attributes'];
+    }
     
     function ajax_checkout()
     {
-        $productID = $_POST[ 'productID'];
-        $qty       = $_POST[ 'qty'];
         
-        $product = wc_get_product( $productID);
-        add_product_to_cart( $product, $qty);
-       
-    	goto_( 'checkout');
+        $product_id        = apply_filters( 'woocommerce_add_to_cart_product_id', absint( $_POST['productID'] ) );
+		$product           = wc_get_product( $product_id );
+		$quantity          = empty( $_POST['qty'] ) ? 1 : wc_stock_amount( wp_unslash( $_POST['qty'] ) );
+		$passed_validation = apply_filters( 'woocommerce_add_to_cart_validation', true, $product_id, $quantity );
+		$product_status    = get_post_status( $product_id );
+		$variation_id      = 0;
+		$attributes         = array();
+        
+        if ( $product && 'variable' === $product->get_type() ) {
+
+            $variations = $product->get_available_variations( 'objects');
+            $variation_match = array_pop( array_filter( $variations, 'filter_variations'));
+			$variation_id = $variation_match->get_variation_id();
+            
+            $attributes = array_map( function( $v){ return 'attribute_' . $v; }, array_keys( $_POST[ 'attributes']));
+        }
+        
+        if ( $passed_validation && false !== WC()->cart->add_to_cart( $product_id, $quantity, $variation_id, $attributes ) && 'publish' === $product_status )
+        {
+            echo "Success";
+        }        
+        
+        // $cart_item = WC()->cart->get_cart_item( $cart_item_key);
+		
+        // 		var_dump( $cart_item_key);
+
+        
     }
     
     function ajax_states()
@@ -163,14 +242,20 @@
                 // "bootstrap.min.css" => [ "shop", "cart", "checkout"],
                 // "bootstrap.min.js" => [ "map-customization"],
                 // "fabric.js" => [ "*", "map-customization"]
+                // "jquery.min.js" => [ "checkout"]
             ];
             
             $pages = $exclude_in_page[ $resource];
             $page_slug = get_post_field( 'post_name');
-            if( $pages != null && in_array( $page_slug, $pages))
-                if( $pages[ 0] != "*")
+            if( $pages != null)
+            {
+                $present = in_array( $page_slug, $pages);
+                if( $pages[ 0] == "*" && !$present)
                     continue;
-
+                if( $present)
+                    continue;
+            }
+            
             switch( $type)
             {
                 case "stylesheets":
@@ -185,8 +270,6 @@
             }
         }
 	}
-	
-	
 	
 // 	add_action( 'wp_enqueue_scripts', 'load_stylesheets');
 
@@ -208,8 +291,12 @@
         }
         else if( $page == "checkout")
         {
-            wp_enqueue_script( 'checkoutjs', js_url_( '/woocommerce/checkout.js'), array(), "1.0");
-            wp_localize_script( 'checkoutjs', 'ajax_object', array( 'ajax_url' => admin_url( 'admin-ajax.php')));
+            // wp_enqueue_script( 'jqueryjs', js_url_( 'jquery.min.js'), array(), '1.0' );
+            wp_register_script( 'checkoutjs', js_url_( '/checkout.js'), array( 'jquery'), "1.0");
+            wp_enqueue_script( 'checkoutjs');
+            wp_localize_script( 'checkoutjs', 'ajax_object', array(
+                'ajax_url' => admin_url( 'admin-ajax.php'),
+                'states' => include WC()->plugin_path() . '/i18n/states.php'));
         }
     }
     
@@ -218,7 +305,16 @@
     function add_product_to_cart( $product, $qty = 1)
     {
 		$product_id = $product->get_id();
-		WC()->cart->add_to_cart( $product_id, $qty);
+		return WC()->cart->add_to_cart( $product_id, $qty);
+    }
+    
+    add_filter( 'woocommerce_add_cart_item', 'set_cart_item_size', 20, 2 );
+    function set_cart_item_size( $cart_item_data, $cart_item_key ) {
+        
+        if ( isset( $cart_item_data['variation']['attributes'][ 'pa_size']) )
+            $cart_item_data['variation']['attributes'][ 'pa_size'] = $_POST[ 'size'];
+
+        return $cart_item_data;
     }
     
     

@@ -12,21 +12,21 @@ Author: zenerDiode
   
 @font-face {
   font-family: 'FiraCode-Regular';
-  src: url('./assets/fonts/FiraCode-Regular.ttf');
+  src: url('./assets/fonts/fira-code/FiraCode-Regular.ttf');
   font-weight: normal;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'FiraCode-Light';
-  src: url('./assets/fonts/FiraCode-Light.ttf');
+  src: url('./assets/fonts/fira-code/FiraCode-Light.ttf');
   font-weight: bold;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'FiraCode-Bold';
-  src: url('./assets/fonts/FiraCode-Bold.ttf');
+  src: url('./assets/fonts/fira-code/FiraCode-Bold.ttf');
   font-weight: bold;
   font-style: normal;
 }
@@ -412,56 +412,79 @@ text-align: center;
 }
 }
 
-@media screen and (max-width: 767px) {
+@media screen and (max-width: 768px) {
 
-h1 {
-  font-size: 36px;
-}
+    h1 {
+      font-size: 36px;
+    }
+    
+    h2 {
+      font-size: 28px;
+    }
+    
+    h3 {
+      font-size: 22px;
+    }
+    
+    .project-info {
+      right: 0;
+      left: 0;
+      margin: 0 auto;
+    }
+    
+    .footer-link, 
+    .site-footer .social-icon {
+      margin-top: 1em;
+    }
+    
+    .copyright-text {
+      margin: 2.5em 0 1em 0;
+    }
+    
+    .footer-link li {
+      margin-left: 0;
+    }
 
-h2 {
-  font-size: 28px;
-}
 
-h3 {
-  font-size: 22px;
-}
+    td.actions > .button:first-child {
+        margin-bottom: .5rem;
+    }
+    
 
-.project-info {
-  right: 0;
-  left: 0;
-  margin: 0 auto;
-}
-
-.footer-link, 
-.site-footer .social-icon {
-  margin-top: 1em;
-}
-
-.copyright-text {
-  margin: 2.5em 0 1em 0;
-}
-
-.footer-link li {
-  margin-left: 0;
-}
 }
 
 @media screen and (max-width: 480px) {
-h1 {
-  font-size: 18px;
-}
-
-h2 {
-  font-size: 16px;
-}
-
-h3 {
-  font-size: 14px;
-}
-
-p {
-  font-size: 12px;
-}
+    
+    h1 {
+      font-size: 18px;
+    }
+    
+    h2 {
+      font-size: 16px;
+    }
+    
+    h3 {
+      font-size: 14px;
+    }
+    
+    p {
+      font-size: 12px;
+    }
+    
+    button {
+        font-size: revert;
+    }
+    
+    .woocommerce .col2-set .woo-col-1, .woocommerce-page .col2-set .woo-col-1,
+    .woocommerce .col2-set .woo-col-2, .woocommerce-page .col2-set .woo-col-2
+    {
+        float: unset;
+        width: 100%;
+    }
+    
+    .woocommerce .col2-set .woo-col-1, .woocommerce-page .col2-set .woo-col-1 {
+        margin-bottom: 1.75rem;
+    }
 }
 
 .tippy-box[data-theme~='map'] {
@@ -504,17 +527,32 @@ margin-bottom: 1rem;
 }
 
 @media only screen and (min-width: 481px) {
-.apparel-display {
-  display: flex;
-  justify-content: space-evenly;
-  flex-wrap: wrap;
-}
-
-.apparel {
-  margin: 0 auto .5rem;
-  width: 22rem;
-  height: 26rem;
-}
+    .apparel-display {
+      display: flex;
+      justify-content: space-evenly;
+      flex-wrap: wrap;
+    }
+    
+    .apparel {
+      margin: 0 auto .5rem;
+      width: 22rem;
+      height: 26rem;
+    }
+    
+    .dress_sizes {
+        width: 22rem;
+    }
+    
+    
+    .woocommerce .col2-set .woo-col-1, .woocommerce-page .col2-set .woo-col-1 {
+        float: left;
+        width: 48%;
+    }
+    
+    .woocommerce .col2-set .woo-col-2, .woocommerce-page .col2-set .woo-col-2 {
+        float: right;
+        width: 48%;
+    }
 }
 
 
@@ -523,12 +561,16 @@ margin-bottom: 1rem;
 :root {
   --canvas-width:         220px;
   --canvas-height:        250px;
-  --tagline-fontsize:     10;
+  --tagline-fontsize:     9;
 }
 
 .apparel {
   width: 14rem;
   height: 16rem;
+}
+
+.dress_sizes {
+    width: 14rem;
 }
 
 #map-area {
@@ -681,8 +723,8 @@ overflow: hidden;
 .tray__slide {
 position: absolute;
 left: 0;
-transform: translateY( -50%);
-animation: wheelin 1s 2s ease-in-out forwards;
+transform: translateY( 50%);
+/*animation: wheelin 1s 2s ease-in-out forwards;*/
 }
 
 @keyframes wheelin {
@@ -801,32 +843,6 @@ fill: #0C7E7E;
     text-align: center;
 }
 
-.loader{
-    position: fixed;
-    display: block;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba( 255, 255, 255, 0.25 );
-    box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
-    backdrop-filter: blur( 4px );
-    -webkit-backdrop-filter: blur( 4px );
-    z-index: 5;
-    cursor: none;
-}
-
-.loader > .content {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    -ms-transform: translate(-50%, -50%);
-    text-align: center;
-}
-
 .cart-item-count {
     position: absolute;
     top: 35%;
@@ -935,7 +951,7 @@ fill: #0C7E7E;
     margin-left: 1rem;
 }
 
-.checkout-image {
+#checkout-image {
     -webkit-animation-name: bounceIn;
     animation-name: bounceIn;
     -webkit-animation-duration: .75s;
@@ -958,16 +974,6 @@ fill: #0C7E7E;
     outline: none;
 }
 
-.woocommerce .col2-set .woo-col-1, .woocommerce-page .col2-set .woo-col-1 {
-    float: left;
-    width: 48%;
-}
-
-.woocommerce .col2-set .woo-col-2, .woocommerce-page .col2-set .woo-col-2 {
-    float: right;
-    width: 48%;
-}
-
 h3#order_review_heading, div#order_review {
     width: 80% !important;
     margin: 1rem auto !important;
@@ -988,6 +994,7 @@ div#order_review thead {
 .woocommerce .cart .button, .woocommerce .cart input.button {
     outline: none;
 }
+
 
 .woocommerce {
     margin-top: 2rem;
@@ -1093,7 +1100,7 @@ div.tab-content {
     margin-top: 1rem;
 }
 
-.nav-tabs .nav-link {
+.nav-tabs .nav-link, .close:focus {
     outline: none;
 }
 
@@ -1105,4 +1112,57 @@ td.actions > .button:first-child {
 td.actions > .button:first-child:hover {
     background-color: #76382d;
     color: var( --white-color);
+}
+
+
+.empty-cart-wrapper {
+    text-align: center;
+}
+
+.empty-cart {
+    display: flex;
+    justify-content: center;
+    width: 22rem;
+    margin: auto;
+}
+
+[name=home]:focus {
+    outline: none;
+}
+
+.dress_sizes {
+    display: flex;
+    justify-content: space-evenly;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+}
+
+.dress_sizes .button {
+    border: 1px solid #eee;
+    border-radius: 4px;
+    outline: none;
+    flex-wrap: wrap;
+    position: relative;
+    margin: 4px;
+}
+
+.dress_sizes .button:hover {
+    cursor: pointer;
+}
+
+.dress_sizes .button .before {
+    display: none;
+    height: 100%;
+    width: 100%;
+    border-radius: 4px;
+    content: "";
+    padding-left: 0;
+    position: absolute;
+    left: -1px;
+    top: 0;
+    border-right: 0;
+    border-top: 0;
+    border-bottom: 0;
+    border-left: 3px solid #c9c9c9;
+    
 }

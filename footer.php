@@ -23,11 +23,11 @@
             </div>
 
             <div class="col-lg-3 col-md-6 col-12" data-aos="fade-up" data-aos-delay="300">
-                <h4 class="my-4">Our Studio</h4>
+                <h4 class="my-4">About Us</h4>
 
                 <p class="mb-1">
                     <i class="fa fa-home mr-2 footer-icon"></i>
-                    ...
+                    <a href=""></a>
                 </p>
             </div>
 
@@ -61,7 +61,7 @@
     
     if( !$loaded_js)
     {
-        require absdir_( 'pages/script.php');
+        require absdir_( 'templates/script.php');
         $loaded_js = true;
     }
 ?>

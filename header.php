@@ -16,7 +16,8 @@
                 'aos.css' => 'style_url_',
                 'owl.carousel.min.css' => 'style_url_',
                 'scale.css' => 'https://unpkg.com/tippy.js@6/animations/scale.css',
-                'style.css' => 'absurl_'
+                'style.css' => 'absurl_',
+                'loader.css' => 'style_url_'
             );
             
             load_resource( "stylesheets", $styles);
@@ -25,12 +26,10 @@
 		?>
     </head>
     <body>
-        <div class="loader">
-            <div class="content">
-                <canvas id="loader" width="200" height="200"></canvas>
-                <p>Please wait while <strong>resource</strong> is being loaded<span class="dot"></span></p>
-            </div>
-        </div>
+        
+        <?php
+            include_once absdir_( "templates/loader.php");
+        ?>
 
         <nav class="navbar">
             <a class="navbar-logo" href="index.html">

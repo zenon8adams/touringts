@@ -11,9 +11,9 @@
         </div>
     </div>
     <div class="map-position-wrapper">
-        <!--<div id="js-tray" class="tray">
+        <div id="js-tray" class="tray">
             <div id="js-tray-slide" class="tray__slide"></div>
-        </div>-->
+        </div>
         <div class="map-container">
             <ul class="nav nav-tabs" id="dress-nav" role="tablist">
               <li class="nav-item" role="presentation">
@@ -23,7 +23,7 @@
                 <button class="nav-btn nav-link" id="back-tab" data-id="1" data-toggle="tab" data-target="#back" type="button" role="tab" aria-controls="back" aria-selected="false">Back</button>
               </li>
               <li class="nav-item dress-color-toggler" role="presentation">
-                <button class="nav-link active" id="dress-color-toggler-tab" type="button" role="tab" aria-controls="dress-color-toggler" aria-selected="false">White</button>
+                <button class="nav-link active" id="dress-color-toggler-tab" type="button" role="tab" aria-controls="dress-color-toggler" aria-selected="false">Black</button>
               </li>
             </ul>
             <div class="tab-content" id="map-customize">
@@ -86,7 +86,7 @@
     global $loaded_js;
     
     $loaded_js = true;
-    require absdir_( 'pages/script.php');
+    require absdir_( 'templates/script.php');
 ?>
 
 <?php

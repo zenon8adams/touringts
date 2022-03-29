@@ -2,6 +2,7 @@
     
     $Routes = Array(
         "contact" =>  absdir_( 'pages/contact.php'),
+        "material-selection" => absdir_( 'pages/material-selection.php'),
         "map-customization" => absdir_( 'pages/map-customize.php')
     );
         
@@ -12,7 +13,7 @@
     
     get_header();
 ?>
- 
+ <!--
 <script type="text/javascript">   
     window.onload = function()
     {
@@ -22,7 +23,7 @@
         }, 500);
     }
 </script>
-
+-->
 <?php
 
     if( $selection != null)

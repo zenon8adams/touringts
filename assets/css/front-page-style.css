@@ -1,0 +1,122 @@
+body, html {
+    margin: 0;
+    height: 100%;
+    font-family: 'Red Rose', cursive;
+}
+
+.content-wrapper {
+
+    background-image: url("../images/Background Image.jpg");
+
+    height: 100%;
+
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+
+.explore {
+    display: flex;
+    background: center / cover no-repeat url("../images/Button.png");
+    width: 10rem;
+    height: 2rem;
+    padding: 1px;
+    justify-content: center;
+    align-items: center;
+    margin-top: 5rem;
+    cursor: pointer;
+    font-family: 'Red Rose';
+    font-weight: bold;
+}
+
+.explore:hover {
+    background-color: #113c4a8a;
+}
+
+.explore span {
+    height: min-content;
+    font-weight: bold;
+}
+
+.logo-wrapper {
+    display: flex;
+    justify-content: end;
+
+}
+
+.logo {
+    width: 15rem;
+}
+
+.explore-box {
+    color: white;
+    position: absolute;
+    left: 10%;
+    top: 50%;
+    transform: translate( 10px, 10px);
+}
+
+.upper-text {
+    font-weight: bold;
+    color: white;
+}
+
+@font-face {
+    font-family: 'Red Rose';
+    font-weight: 100;
+    font-display: swap;
+    src: url( '/fonts/red-rose/RedRose-Light.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Red Rose';
+    font-weight: 200;
+    font-display: swap;
+    src: url( '../fonts/red-rose/RedRose-Regular.ttf') format('truetype');
+}
+
+
+@font-face {
+    font-family: 'Red Rose';
+    font-weight: 400;
+    font-display: swap;
+    src: url( '../fonts/red-rose/RedRose-Medium.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Red Rose';
+    font-weight: 600;
+    font-display: swap;
+    src: url( '../fonts/red-rose/RedRose-SemiBold.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Red Rose';
+    font-weight: 800;
+    font-display: swap;
+    src: url( '../fonts/red-rose/RedRose-Bold.ttf') format('truetype');
+}
+
+
+
+/* Responsiveness */
+
+@media screen and ( max-width: 480px) {
+
+    h1 {
+        font-size: 12px;
+    }
+
+    .logo {
+        width: 10rem;
+    }
+
+    .explore {
+        margin-top: 4rem;
+    }
+
+    .explore-box {
+        top: 55%;
+    }
+}

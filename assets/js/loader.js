@@ -105,7 +105,7 @@
     window.onload = function( event)
     {
         setTimeout( () => {
-            $( '.loader').hide();
+            document.querySelector( '.loader').style.display = "none";
             document.body.style.overflow = 'scroll';
             window.pageMessage && displayInfo( window.pageMessage);
         }, 500);
